@@ -8,7 +8,6 @@
 
 def print_directory_tree(root):
     """
-    This function is
     """
 def list_extension_files(root):
     pass 
