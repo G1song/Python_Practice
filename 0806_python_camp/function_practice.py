@@ -7,48 +7,35 @@ import random
 # cmp는 두 원소 중 더 큰 것을 반환하는 함수. 
 # --------------------------------------------
 
-def my_max(lst, cmp = lambda x, y: x):
-        pass 
+# def cmp(x,y):
+#     return x if x > y, else y
+#def cmp(x, y):
+    #return x + y
+# (위와 동일) lambda x, y: x + y
 
-def my_min(lst, cmp = lambda x, y: x):
-    pass 
 
-cmp = lambda x, y: x 
 
-def cmp(x, y):
-    return x 
+def my_max(lst, cmp = lambda x, y: x if x>y else y):
+    max_value = lst[0] #초기 최대값은 리스트의 첫번째 요소 
+    for item in lst[1:]: #리스트의 두번째요소부터 순회
+        max_value = cmp(max_value, item) # cmp 함수를 이용하여 현재 max 와 순회하며 도는 수 비교
+    return max_value #최대값 반환 
+
+
+def my_min(lst, cmp = lambda x, y: x if x < y else y):
+    min_value = lst[0]
+    for item in lst[1:]:
+        min_value = cmp(min_value, item)
+    return min_value
+
 
 lst = [(1,2), (2,3), (5,3), (19,2), (6,100)]
-    
-def max_by_first_element(lst):
-    max_elem = lst[0]
 
-    for e in lst[1:]:
-        if e[0] > max_elem[0]:
-            max_elem = e
-    
-    return max_elem
+max_value = my_max(lst, cmp=lambda x,y:x if x[1] > y[1] else y) #두번째요소기준 최대값찾기
+print(max_value) 
 
-
-def max_by_sum(lst):
-    max_elem = lst[0]
-
-    for e in lst[1:]:
-        if sum(e) > sum(max_elem):
-            max_elem = e
-
-    return max_elem
-
-def my_max(lst, cmp = lambda x,y:x):  #cmp: 두 요소를 비교함수. lambda x,y : x -> 두 인자 중 첫번째 인자 반환
-    max_elem = lst[0]              #리스트의 첫 번째 요소를 초기 최대값(max_elem)으로 설정
-
-    for e in lst[1:]:
-        max_elem = cmp(e, max_elem)
-
-    return max_elem
-
-
-
+min_value = my_min(lst, cmp=lambda x,y:x if x[1] < y[1] else y)
+print(min_value)
 
 
 
@@ -61,21 +48,95 @@ def my_max(lst, cmp = lambda x,y:x):  #cmp: 두 요소를 비교함수. lambda x
 # 4) 주어진 기준 cmp가 큰 element를 출력하거나, 같다는 결과를 출력하게 만들기 
 # 5) cmp상 같은 경우 tie-breaking하는 함수 넣기 
 # --------------------------------------------
+number = [1, 3, 5, 9]
+list_sm = [(3, 5), (6, 1), (2, 9), 8, 5]
+elem = 7
 
+
+# def sort1(lst):
+
+def get_index(lst, newcard):
+    for e in lst:
+        if e > newcard:
+            return lst.index(e)
+    else:
+        return len(lst)
+
+print(get_index(number, 7))
+    
+# def index2(lst, elem):
+#     for i, e in enumerate(lst):
+#         if e > elem:
+#             return i
+    
 def sort1(lst):
-    pass 
+    res = []
+    res.append(lst[0])
+    for newcard in lst[1:]:
+        res.insert(get_index(res, newcard), newcard)
+    return res
+
+newlist = [8, 0, -9, -3, 4, 7 , 6]
+print(sort1(newlist))
+ 
+
+# def sort1_insert(lst):
+#     res = [lst[0]]
+
+#     for elem in lst[1:]:
+#         idx_to_insert = get_insert_index(res, elem)
+#         res.insert(idx_to_insert, elem)
+    
+#     return res 
+
+def get_ASC_index(lst, newcard, upper_to_lower = True, cmp = lambda x, y: x if x > y else y):    #오름차순일 때 index 
+    if upper_to_lower == True :
+        for i in lst:
+            if cmp(i, newcard) == i:
+                return lst.index(i)
+    else :
+        for i in lst :
+            if cmp(i, newcard) == newcard:
+                return lst.index(newcard)
+    
+    return len(lst)
+        
+print(get_ASC_index(number, 11))
 
 def sort2(lst, upper_to_lower = True):
-    pass 
+    res = []
+    res.append(lst[0])
+    for newcard in lst[1:]:
+        num = get_ASC_index(res, newcard, upper_to_lower = upper_to_lower)
+        res.insert(num, newcard)
+        
+    return res         
 
-def sort3(lst, upper_to_lower = True, cmp = lambda x, y: x):
-    pass 
+print(sort2(newlist, upper_to_lower=True))
 
-def sort4(lst, upper_to_lower = True, cmp = lambda x, y: x):
-    pass 
 
-def sort5(lst, upper_to_lower = True, cmp = lambda x, y: x, tie_breaker = lambda x, y: random.choice([x,y])):
-    pass 
+def sort3(lst, upper_to_lower = True, cmp = lambda x, y: x if x > y else y): #오름차순으로 하세요 
+    res=[]
+    res.append(lst[0])
+    for i in lst[1:]:
+        
+        num = get_ASC_index(res, i, upper_to_lower = upper_to_lower, cmp = cmp)
+        res.insert(num, i)
+
+    return res 
+    
+            
+print(sort3(newlist))
+ 
+
+
+
+
+# def sort4(lst, upper_to_lower = True, cmp = lambda x, y: x):
+#     pass 
+
+# def sort5(lst, upper_to_lower = True, cmp = lambda x, y: x, tie_breaker = lambda x, y: random.choice([x,y])):
+#     pass 
 
 
 
