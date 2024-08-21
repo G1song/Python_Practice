@@ -109,3 +109,14 @@ class DoublyLinkedList:
 
         return res 
 
+if __name__ == '__main__':
+    lst = LinkedList([1,2,3,4])
+
+    assert lst.front() == 4
+    assert lst.head.datum == 4 
+    assert lst.head.next.datum == 3 
+    assert lst.head.next.next.datum == 2
+    assert lst.head.next.next.next.datum == 1
+    assert lst.head.next.next.next.next is None 
+
+    assert lst.end.datum == 1    

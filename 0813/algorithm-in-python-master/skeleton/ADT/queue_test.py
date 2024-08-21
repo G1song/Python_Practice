@@ -10,74 +10,61 @@ except ModuleNotFoundError:
 class Queue:
     def __init__(self, *elements, backend = list):
         assert isinstance(elements, list) or isinstance(elements, tuple)
-        # print('elements in Queue.__init__()', elements, type(elements))
-        self.backend = backend
+        self.backend = backend # Q1 )) self.elements 없어도 돼?
         if self.backend == list:
             self.list = list(elements)
         elif self.backend == LinkedList:
             self.linked_list = LinkedList(elements)
-            print(self.linked_list.end.datum) # make right linked list 
-            #LinkedList class 를 사용한다는 게 알아서 linkedlist 가 만들어진다는 건가? 
-            #*elements 가 아니고 그냥 elements 임 *을 붙이면 elements 하나씩 풀어서 넣어버림. 
             
+        
+
+
     def elements(self):
         if self.backend == list:
             return self.list
-        elif self.backend == LinkedList: 
+        elif self.backend == LinkedList:
             result = []
-            current_node = self.linked_list.head #(리스트가 아니니까 head지정필요)
-            for i in range(self.linked_list.size):
+            current_node = self.linked_list.head
+            # for _ in range(self.linked_list.size):
+            while current_node is not None:
                 assert isinstance(current_node, LinkedNode), current_node
-                #assert문법: 'assert 조건식, 조건이 거짓일 때의 메세지' 
                 result.append(current_node.datum)
                 current_node = current_node.next
-            # return self.linked_list
-            return result 
+            # print('End: ', self.linked_list.end.datum)
+            return result
         
-            #current_node = self.head
-            # for i in range(self.linked_list.size):
-            #     return self.linked_list
-            
 
     def enqueue(self, elem): #Queue 의 끝에 추가하는 거
         if self.backend == list:
             self.list = self.list + [elem]
         elif self.backend == LinkedList:
             if not isinstance(elem, LinkedNode):
-            # LinkedNode 각각의 순서인자 node_id, datum 을 정해줘야하는뎅.. 모르겟음 
-                new_node = LinkedNode(node_id = self.linked_list.end.node_id + 1, datum = elem, next = None)
-            #0821Q내 코드  (??질문// 내코드와 강사님 코드의 순서!! 이 순서가 왜 이순서인지)
-            # self.linked_list.end.next = new_node 
-            # self.linked_list.end = new_node
-            # new_node.next = None
-            # self.linked_list.size += 1 
-            #강사님 코드 
-            new_node.next = self.linked_list.head 
+                new_node = LinkedNode(node_id=1, datum = elem, next = None)
+            new_node.next = self.linked_list.head
             self.linked_list.head = new_node
-            self.linked_list.size += 1 
+            self.linked_list.size += 1
 
+            #Q3 ))이거 왜 안나오는지? 나오게 하려면?? 
+            
                   
     def dequeue(self): #dequeue 가장오래된 걸 빼! 
-        if self.backend == list: 
-            if not self.list: #리스트가 비어있다면
+        if self.backend == list:
+            if not self.list:
                 raise IndexError("Queue is empty")
-            return self.list.pop(0) 
-        elif self.backend == LinkedList: #if isinstance 가 필요가없지 노드를 그냥 빼는거니까
-            if self.linked_list.head is None:  # head가 None인지 확인
-                raise IndexError("Queue is empty")
-            else: #queue가 비어있지 않다면 
-                old_end = self.linked_list.end
-                self.linked_list.end = old_end.next 
-                self.linked_list.size -= 1 
-            return old_end.datum
+            return self.list.pop(0)
+        elif self.backend == LinkedList:
+            prev = self.linked_list.head
+            while prev.next != self.linked_list.end:
+                prev = prev.next
+            prev.next = None 
 
- #head 는 연결리스트의 용어, front 는 queue의 용어 두 개는 다른 층위의 개념. 
     def front(self):
         if self.backend == list:
             return self.list[0] # 0821Q==list 일 경우에도 빈리스트일경우 raise IndexError 해야함? 
         elif self.backend == LinkedList:
-            if self.linked_list.head is None:  # head가 None인지 확인
-                raise IndexError("Queue is empty") 
+            if self.linked_list.head is None:
+                raise IndexError("Queue is empty")
+            print("Front: ", self.linked_list.head.datum) #Q4 ))왜 안노오나요ㅠㅠㅠㅠ
             return self.linked_list.head.datum
 
     def size(self):
@@ -85,15 +72,17 @@ class Queue:
             return len(self.list)
         elif self.backend == LinkedList:
             return self.linked_list.size
-    
+
+
     def is_empty(self): #비어있으면 True, 뭔가 있으면 False 
         if self.backend == list:
             return self.list == []
         elif self.backend == LinkedList:
-            return self.linked_list.head is None 
-        else: 
+            return self.linked_list.head is None
+        else:
             raise ValueError
-        
+
+
 #현재 객체의 요소들을 반환하는 메서드 self.elementS()
     def __str__(self):
         res = ''
@@ -156,7 +145,10 @@ if __name__ == '__main__':
         # print(str(q1))
         # print(Queue.__str__(q1))
         assert q1.elements() == [1,2,3,4]
-    
+
+        print('149: ', q1.enqueue(22))
+        print('150: ', q1.elements())
+
         assert q1.size() == 4
         print(q1)
         q1.enqueue(5)
