@@ -4,10 +4,13 @@ except ModuleNotFoundError:
     from data_structure.node import Node
 
 class LinkedNode:
-    def __init__(self, node_id, datum, next = None):
+    def __init__(self, node_id, datum, next = None): #node_id 인덱스아님 아무거나 넣어도됨
         self.node_id = node_id 
         self.datum = datum
         self.next = next 
+
+    #def set_next(self, next_node):
+        #assert isinstance(next_node, LinkedNode)
 
 class LinkedList:
     def __init__(self, elements):
@@ -40,17 +43,67 @@ class LinkedList:
             # 23번 i = 1있어야함? 없어도 될 거 같은데 
             #Q? self.next 가 안되는이유?? self는 Linkedlist 잡채잖아. next는 node가 필요
 
-  
+    def append_to_head(self, elem):
+        if not isinstance(self, LinkedNode): #노드가 아니면 노드로 만들어
+            new_node = LinkedNode(node_ide, elem)
+        elem.next = self.head
+        self.head = elem
+
+        if self.size == 0:
+            self.end = elem
+            self.tail = None
+
+        self.size += 1 
+
+
+    def remove_from_head(self):
+        res = self.head
+        self.head = res.next
+        return res
+
+    def append(self, elem):
+        if not isinstance(elem, LinkedNode):
+            elem = LinkedNode(self.size, elem)
+
+        if self.end is None:
+            self.head# = elem 
+
         
-                   
-         
-            
+        self.end.next = elem
+        self.end = elem?
+        self.size += 1
+
+        
+
+
+    def pop(self, idx):
+        pass
+
+    def insert(self, idx, elem):
+        if not isinstance(elem, LinkedNode):
+            elem = LinkedNode(self.size, elem)
+        if self.size + 1 <= idx:
+            raise IndexError("out of index")
+        cur = self.head
+        cur_idx = 0
+
+        while cur_idx < idx-1:
+            cur = cur.next
+
+        cur.next(elem)
+        
+     
 
     
     def __iter__(self):
         yield None
 
-    def __str__(self): # 링크드리스트 안에 뭐가 있는지 
+        #yield 와 return
+        '''
+        def        
+        '''
+
+    def __str__(self): # print('머머는: ', answer) 처럼 보기쉽게 알려줌
         return 'hello world'
 
 

@@ -5,11 +5,12 @@ print(os.getcwd())
 try:
     from linked_list_test import LinkedList, LinkedNode, DoublyLinkedNode, DoublyLinkedList
 except ModuleNotFoundError:
-    from data_structure.linked_list_test import LinkedList, LinkedNode, DoublyLinkedNode, DoublyLinkedList
+    from data_structure.linked_list_test import LinkedList, LinkedNode, DoubcdlyLinkedNode, DoublyLinkedList
 
 class Queue:
     def __init__(self, *elements, backend = list):
         assert isinstance(elements, list) or isinstance(elements, tuple)
+        # self.elems = elements # 오류 발생?   
         self.backend = backend # Q1 )) self.elements 없어도 돼?
         if self.backend == list:
             self.list = list(elements)
@@ -35,6 +36,7 @@ class Queue:
         
 
     def enqueue(self, elem): #Queue 의 끝에 추가하는 거
+        print('before:', self.elements())
         if self.backend == list:
             self.list = self.list + [elem]
         elif self.backend == LinkedList:
@@ -43,6 +45,8 @@ class Queue:
             new_node.next = self.linked_list.head
             self.linked_list.head = new_node
             self.linked_list.size += 1
+        print('after:', self.elements())
+        
 
             #Q3 ))이거 왜 안나오는지? 나오게 하려면?? 
             
@@ -51,16 +55,25 @@ class Queue:
         if self.backend == list:
             if not self.list:
                 raise IndexError("Queue is empty")
-            return self.list.pop(0)
+            # del_value = self.list[0]
+            return self.list.pop() 
+
+            #return del_value
+            
         elif self.backend == LinkedList:
             prev = self.linked_list.head
+            old_end = self.linked_list.end 
             while prev.next != self.linked_list.end:
                 prev = prev.next
             prev.next = None 
+            return 
 
     def front(self):
         if self.backend == list:
-            return self.list[0] # 0821Q==list 일 경우에도 빈리스트일경우 raise IndexError 해야함? 
+            if self.list == []:
+                return None
+            return self.list[0] # list 일 경우에도 빈리스트일경우 raise IndexError 해야함?
+               
         elif self.backend == LinkedList:
             if self.linked_list.head is None:
                 raise IndexError("Queue is empty")
@@ -140,41 +153,44 @@ if __name__ == '__main__':
     available_backends = [LinkedList] #, LinkedList] # , DoublyLinkedList]
 
     for backend in available_backends:
-        q1 = Queue(1,2,3,4, backend = backend)
-        # print(q1)
-        # print(str(q1))
-        # print(Queue.__str__(q1))
-        assert q1.elements() == [1,2,3,4]
+        # q1 = Queue(1,2,3,4, backend = backend)
+        # # print(q1)
+        # # print(str(q1))
+        # # print(Queue.__str__(q1))
+        # assert q1.elements() == [1,2,3,4]
 
-        print('149: ', q1.enqueue(22))
-        print('150: ', q1.elements())
+        # # print('149: ', q1.enqueue(22))
+        # # print('150: ', q1.elements())
+        # # print(q1.front())
 
-        assert q1.size() == 4
-        print(q1)
-        q1.enqueue(5)
-        print(q1)
-        assert q1.elements() == [5,1,2,3,4], q1.elements()
-        assert q1.size() == 5
-        assert q1.dequeue() == 4
-        assert q1.size() == 4
-        assert q1.elements() == [5,1,2,3]
-        assert q1.front() == 3 
-
-
-        q2 = Queue(backend = backend)
-
-        assert q2.elements() == []
-        assert q2.size() == 0
-        assert q2.is_empty()
+        # assert q1.size() == 4
+        # print('161:' ,q1)
+        # q1.enqueue(5)
+        # print('163: ', q1)
+        # assert q1.elements() == [5,1,2,3,4], q1.elements()
+        # assert q1.size() == 5
+        # assert q1.dequeue() == 4, print(q1.dequeue)
+        # assert q1.size() == 4
+        # assert q1.elements() == [5,1,2,3]
+        # assert q1.front() == 3 
         
-        q2.enqueue(1)
+        q1=Queue(1,2,3,4)
+        print(q1.dequeue())
 
-        assert q2.elements() == [1]
-        assert q2.size() == 1
-        assert not q2.is_empty()
+        # q2 = Queue(backend = backend)
+
+        # assert q2.elements() == []
+        # assert q2.size() == 0
+        # assert q2.is_empty()
         
-        if backend == LinkedList:
-            print(q1.linked_list, q2.linked_list)
+        # q2.enqueue(1)
+
+        # assert q2.elements() == [1]
+        # assert q2.size() == 1
+        # assert not q2.is_empty()
+        
+        # if backend == LinkedList:
+        #     print(q1.linked_list, q2.linked_list)
     
         # q2 = PriorityQueue(('c',1), ('d',4), ('e',2), ('b',3), backend = backend)
 
