@@ -1,6 +1,21 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+## cos
+x = np.linspace(-2*np.pi, 2*np.pi, 100)
+y = 2*np.cos(2*x) -1
+
+plt.figure(figsize = (12, 5))
+plt.plot(x, np.cos(x), label = "cos(x)")
+plt.plot(x, y, label = "2*cos(2*x) -1")
+plt.legend()
+plt.grid(linestyle = ":")
+plt.show()
+
+
+
+
+
 # def polynomial(x, n):
 #     y = x ** n
 #     return y 
@@ -56,25 +71,25 @@ import matplotlib.pyplot as plt
 
 
 #########
-# x = np.linspace(-2*np.pi, 2*np.pi, 100)
+x = np.linspace(-2*np.pi, 2*np.pi, 100)
 
-# sin_x = np.sin(x)
-# cos_x = np.cos(x)
-# tan_x = np.tan(x)
+sin_x = np.sin(x)
+cos_x = np.cos(x)
+tan_x = np.tan(x)
 
-# y_list = [sin_x, cos_x, tan_x]
-# y_label =["sin(x)", "cos(x)", "tan(x)"]
-# color_list = ['b', 'g', 'r']
-# fig, ax = plt.subplots(3, 1, figsize = (12, 10))
+y_list = [sin_x, cos_x, tan_x]
+y_label =["sin(x)", "cos(x)", "tan(x)"]
+color_list = ['b', 'g', 'r']
+fig, ax = plt.subplots(3, 1, figsize = (12, 10))
 
-# for i in range(3):
-#     ax[i].plot(x, y_list[i], label = y_label[i], c = color_list[i])
-#     ax[i].set_ylim(-1, 1)
-#     ax[i].grid(linestyle = ":")
-#     ax[i].set_xticks([-2*np.pi, -np.pi, 0, np.pi, 2*np.pi], labels = ["-2pi", "-pi", "0", "pi", "2pi"])
+for i in range(3):
+    ax[i].plot(x, y_list[i], label = y_label[i], c = color_list[i])
+    ax[i].set_ylim(-1, 1)
+    ax[i].grid(linestyle = ":")
+    ax[i].set_xticks([-2*np.pi, -np.pi, 0, np.pi, 2*np.pi], labels = ["-2pi", "-pi", "0", "pi", "2pi"])
  
 
-# plt.show()
+plt.show()
 
 ########
 # y-b = sin(x-a)의 그래프는 y= sin x의 그래프를 x축으로 a만큼, y축으로 b만큼 평행 이동한 것. 
